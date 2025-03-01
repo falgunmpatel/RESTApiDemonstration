@@ -4,28 +4,32 @@ import org.example.restapidemonstration.model.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/hello")
 public class HelloRestController {
-  @RequestMapping(path = "/hello", method = RequestMethod.GET)
+
+  @GetMapping
   public String hello() {
     return "Hello, World!";
   }
 
-  @RequestMapping(path = "/hello/query", method = RequestMethod.GET)
+  @GetMapping("/query")
   public String helloQuery(@RequestParam(name = "name", defaultValue = "World") String name) {
     return "Hello, " + name + "!";
   }
 
-  @RequestMapping(path = "/hello/path/{name}", method = RequestMethod.GET)
+  @GetMapping("/path/{name}")
   public String helloPath(@PathVariable String name) {
     return "Hello, " + name + "!";
   }
 
-  @RequestMapping(path = "/hello/post", method = RequestMethod.POST)
+  @PostMapping("/post")
   public String helloPost(@RequestBody User user) {
-    return "Hello, " + user.getFirstName() + " " + user.getLastName() + "!";
+    String firstName = (user.getFirstName() != null) ? user.getFirstName() : "Unknown";
+    String lastName = (user.getLastName() != null) ? user.getLastName() : "User";
+    return "Hello, " + firstName + " " + lastName + "!";
   }
 
-  @RequestMapping(path = "/hello/put/{firstName}", method = RequestMethod.PUT)
+  @PutMapping("/put/{firstName}")
   public String helloPut(
       @PathVariable String firstName, @RequestParam(name = "lastName") String lastName) {
     return "Hello, " + firstName + " " + lastName + "!";
